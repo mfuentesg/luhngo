@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"regexp"
 	"strconv"
+	"time"
 )
 
 func isValidNumber(lunhNumber string) (bool, error) {
@@ -18,6 +19,7 @@ func isValidNumber(lunhNumber string) (bool, error) {
 }
 
 func randIntn(min, max int) int {
+	rand.Seed(time.Now().UTC().UnixNano())
 	return rand.Intn(max-min) + min
 }
 
