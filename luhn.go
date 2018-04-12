@@ -24,31 +24,23 @@ func randIntn(min, max int) int {
 }
 
 func checkSum(luhnNumber string) int {
-	var reversed string
+	var checkSum int
+
 	numberLength := len(luhnNumber) - 1
 	for i := 0; i <= numberLength; i++ {
-		reversed += string(luhnNumber[numberLength-i])
-	}
+		index := numberLength - i
+		n, _ := strconv.Atoi(string(luhnNumber[index]))
 
-	doubled := []int{}
-	for i := 0; i <= numberLength; i++ {
-		n, _ := strconv.Atoi(string(reversed[i]))
 		if i%2 != 0 {
-			doubled = append(doubled, n*2)
-		} else {
-			doubled = append(doubled, n)
+			n = n * 2
 		}
-	}
 
-	var checkSum int
-	for _, digit := range doubled {
-		if digit > 9 {
-			checkSum += digit%10 + 1
-		} else {
-			checkSum += digit
+		if n > 9 {
+			n = n%10 + 1
 		}
-	}
 
+		checkSum += n
+	}
 	return checkSum % 10
 }
 
@@ -59,7 +51,7 @@ func Digit(luhnNumber string) (int, error) {
 		return 0, err
 	}
 
-	return (10 - checkSum(luhnNumber+"0")) % 10, nil
+	return (10 - checkSum(fmt.Sprintf("%s0", luhnNumber))) % 10, nil
 }
 
 // Rand generates a random valid luhn number
@@ -70,7 +62,7 @@ func Rand(length int) (string, error) {
 
 	randStr := strconv.Itoa(randIntn(1, 9))
 	for i := 0; i < length-2; i++ {
-		randStr += strconv.Itoa(randIntn(0, 9))
+		randStr = fmt.Sprintf("%s%d", randStr, randIntn(0, 9))
 	}
 
 	digit, err := Digit(randStr)
@@ -78,7 +70,7 @@ func Rand(length int) (string, error) {
 		return "", err
 	}
 
-	return randStr + strconv.Itoa(digit), nil
+	return fmt.Sprintf("%s%d", randStr, digit), nil
 }
 
 // Verify evalutes if the provided string complies with the Luhn Algorithm
@@ -105,5 +97,5 @@ func Complete(luhnNumber string) (string, error) {
 		return "", err
 	}
 
-	return luhnNumber + strconv.Itoa(digit), nil
+	return fmt.Sprintf("%s%d", luhnNumber, digit), nil
 }
