@@ -28,8 +28,7 @@ func checkSum(luhnNumber string) int {
 
 	numberLength := len(luhnNumber) - 1
 	for i := 0; i <= numberLength; i++ {
-		index := numberLength - i
-		n, _ := strconv.Atoi(string(luhnNumber[index]))
+		n, _ := strconv.Atoi(string(luhnNumber[numberLength-i]))
 
 		if i%2 != 0 {
 			n = n * 2
