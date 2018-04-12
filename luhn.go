@@ -20,7 +20,7 @@ func isValidNumber(lunhNumber string) (bool, error) {
 
 func randIntn(min, max int) int {
 	rand.Seed(time.Now().UTC().UnixNano())
-	return rand.Intn(max-min) + min
+	return rand.Intn(max-min+1) + min
 }
 
 func checkSum(luhnNumber string) int {
