@@ -81,12 +81,9 @@ func Verify(luhnNumber string) (bool, error) {
 
 // Complete appends the luhn digit to the provided string of digits
 func Complete(luhnNumber string) (string, error) {
-	valid, err := isValidNumber(luhnNumber)
-
-	if !valid {
+	digit, err := Digit(luhnNumber)
+	if err != nil {
 		return "", err
 	}
-
-	digit, _ := Digit(luhnNumber)
 	return fmt.Sprintf("%s%d", luhnNumber, digit), nil
 }
