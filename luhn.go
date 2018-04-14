@@ -64,11 +64,7 @@ func Rand(length int) (string, error) {
 		randStr = fmt.Sprintf("%s%d", randStr, randIntn(0, 9))
 	}
 
-	digit, err := Digit(randStr)
-	if err != nil {
-		return "", err
-	}
-
+	digit, _ := Digit(randStr)
 	return fmt.Sprintf("%s%d", randStr, digit), nil
 }
 
@@ -91,10 +87,6 @@ func Complete(luhnNumber string) (string, error) {
 		return "", err
 	}
 
-	digit, err := Digit(luhnNumber)
-	if err != nil {
-		return "", err
-	}
-
+	digit, _ := Digit(luhnNumber)
 	return fmt.Sprintf("%s%d", luhnNumber, digit), nil
 }

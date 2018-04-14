@@ -42,52 +42,12 @@ func TestValidNumber(t *testing.T) {
 	}
 }
 
-func TestInvalidLuhnNumber(t *testing.T) {
-	numbers := []string{"00x", "0xff000000", "", "123a1_", "_"}
-
-	for _, number := range numbers {
-		if _, err := Digit(number); err == nil {
-			t.Errorf("Digit(%s), expected nil", number)
-		}
-	}
-}
-
-func TestDigitWithValidNumbers(t *testing.T) {
-	numbers := map[string]int{"7": 5, "0": 0, "383": 0, "101099877719": 5}
-
-	for number, expected := range numbers {
-		if digit, _ := Digit(number); digit != expected {
-			t.Errorf("Digit(%s) must be equals to %d, got %d", number, expected, digit)
-		}
-	}
-}
-
-func TestVerifyWrongCases(t *testing.T) {
-	numbers := []string{"73", "01", "3836", "1010998777197", "1"}
-	for _, number := range numbers {
-		if valid, _ := Verify(number); valid {
-			t.Errorf("Verify(%s) must be invalid", number)
-		}
-	}
-}
-
-func TestVerifySuccessCases(t *testing.T) {
-	numbers := []string{"75", "00", "3830", "1010998777195", "18"}
-	for _, number := range numbers {
-		if valid, _ := Verify(number); !valid {
-			t.Errorf("Verify(%s) must be valid", number)
-		}
-	}
-}
-
-func TestRandomNumberLength(t *testing.T) {
+func TestRandom(t *testing.T) {
 	length := 10
 	if randNumber, _ := Rand(length); len(randNumber) != length {
 		t.Errorf("number length does not match with %d, got %d", length, len(randNumber))
 	}
-}
 
-func TestRandomMinLength(t *testing.T) {
 	_, err := Rand(0)
 
 	if err == nil {
@@ -95,7 +55,21 @@ func TestRandomMinLength(t *testing.T) {
 	}
 }
 
-func TestDigitByRandomNumber(t *testing.T) {
+func TestDigit(t *testing.T) {
+	numbers := []string{"00x", "0xff000000", "", "123a1_", "_"}
+	for _, number := range numbers {
+		if _, err := Digit(number); err == nil {
+			t.Errorf("Digit(%s), expected nil", number)
+		}
+	}
+
+	validNumbers := map[string]int{"7": 5, "0": 0, "383": 0, "101099877719": 5}
+	for number, expected := range validNumbers {
+		if digit, _ := Digit(number); digit != expected {
+			t.Errorf("Digit(%s) must be equals to %d, got %d", number, expected, digit)
+		}
+	}
+
 	length := 5
 	randNumber, _ := Rand(length)
 	randDigit, _ := strconv.Atoi(string(randNumber[length-1]))
@@ -106,7 +80,21 @@ func TestDigitByRandomNumber(t *testing.T) {
 	}
 }
 
-func TestVerifyByRandomNumber(t *testing.T) {
+func TestVerify(t *testing.T) {
+	numbers := []string{"73", "01", "3836", "1010998777197", "1", "x"}
+	for _, number := range numbers {
+		if valid, _ := Verify(number); valid {
+			t.Errorf("Verify(%s) must be invalid", number)
+		}
+	}
+
+	numbers = []string{"75", "00", "3830", "1010998777195", "18"}
+	for _, number := range numbers {
+		if valid, _ := Verify(number); !valid {
+			t.Errorf("Verify(%s) must be valid", number)
+		}
+	}
+
 	length := 10
 	randNumber, _ := Rand(length)
 
@@ -115,7 +103,11 @@ func TestVerifyByRandomNumber(t *testing.T) {
 	}
 }
 
-func TestCompleteByRandomNumber(t *testing.T) {
+func TestComplete(t *testing.T) {
+	if _, err := Complete("x"); err == nil {
+		t.Error("expected invalid error")
+	}
+
 	length := 10
 	randNumber, _ := Rand(length)
 
