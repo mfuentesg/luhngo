@@ -9,7 +9,7 @@ import (
 )
 
 func isValidNumber(lunhNumber string) (bool, error) {
-	matched, err := regexp.Match("^[0-9]{1,}$", []byte(lunhNumber))
+	matched, err := regexp.Match("^[0-9]+$", []byte(lunhNumber))
 
 	if !matched {
 		return false, fmt.Errorf("could not match %s: %v", lunhNumber, err)
@@ -31,7 +31,7 @@ func checkSum(luhnNumber string) int {
 		n, _ := strconv.Atoi(string(luhnNumber[numberLength-i]))
 
 		if i%2 != 0 {
-			n = n * 2
+			n *= 2
 		}
 
 		if n > 9 {

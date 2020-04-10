@@ -16,6 +16,7 @@ func TestCheckSum(t *testing.T) {
 }
 
 func TestRandInt(t *testing.T) {
+	// nolint
 	min, max := 1, rand.Int()
 	for i := 0; i < 1000; i++ {
 		if randInt := randIntn(min, max); randInt < min || randInt > max {
@@ -124,6 +125,7 @@ func BenchmarkCheckSum(b *testing.B) {
 
 func BenchmarkRandInt(b *testing.B) {
 	for n := 0; n < b.N; n++ {
+		// nolint
 		min, max := 1, rand.Int()
 		randIntn(min, max)
 	}
@@ -131,25 +133,25 @@ func BenchmarkRandInt(b *testing.B) {
 
 func BenchmarkRand(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		Rand(50)
+		_, _ = Rand(50)
 	}
 }
 
 func BenchmarkVerify(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		rand, _ := Rand(50)
-		Verify(rand)
+		r, _ := Rand(50)
+		_, _ = Verify(r)
 	}
 }
 
 func BenchmarkDigit(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		Digit("101099877719")
+		_, _ = Digit("101099877719")
 	}
 }
 
 func BenchmarkComplete(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		Complete("101099877719")
+		_, _ = Complete("101099877719")
 	}
 }
